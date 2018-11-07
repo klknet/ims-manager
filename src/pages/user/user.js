@@ -1,8 +1,10 @@
 import { Component } from 'react';
 import React from 'react';
+import {Route, BrowserRouter as Router, Link, Redirect, Switch } from 'react-router-dom';
 import { Breadcrumb, Table } from 'antd';
 import config from '../../config/settings';
 import './user.css';
+import UserDetail from "./detail";
 
 class User extends Component {
   constructor(props) {
@@ -78,7 +80,7 @@ class User extends Component {
         title: '操作',
         key: 'operation',
         render(text) {
-          return <span>编辑 | 更多</span>;
+            return (<Link to={"detail"}>编辑</Link>)
         },
       },
     ];
@@ -88,8 +90,10 @@ class User extends Component {
           <Breadcrumb.Item>用户</Breadcrumb.Item>
           <Breadcrumb.Item>用户管理</Breadcrumb.Item>
         </Breadcrumb>
+          <Route path={"detail"} component={UserDetail}/>
         <Table columns={columns} dataSource={this.state.data} rowKey="userId"
                pagination={this.state.pagination} size="middle"/>
+
       </div>
     );
   }

@@ -80,7 +80,7 @@ class User extends Component {
         title: '操作',
         key: 'operation',
         render(text) {
-            return (<Link to={"detail"}>编辑</Link>)
+            return (<Link to={"/console/userManager/detail"}>编辑</Link>)
         },
       },
     ];
@@ -90,7 +90,7 @@ class User extends Component {
           <Breadcrumb.Item>用户</Breadcrumb.Item>
           <Breadcrumb.Item>用户管理</Breadcrumb.Item>
         </Breadcrumb>
-          <Route path={"detail"} component={UserDetail}/>
+
         <Table columns={columns} dataSource={this.state.data} rowKey="userId"
                pagination={this.state.pagination} size="middle"/>
 

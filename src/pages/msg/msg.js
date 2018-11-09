@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Avatar, Breadcrumb, Table } from 'antd';
-import './user.css';
 import axios from '../../utils/request';
+import { Avatar, Breadcrumb, Table } from 'antd';
+import { Link } from 'react-router-dom';
 
-class User extends Component {
+class Msg extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +11,7 @@ class User extends Component {
       pagination: {
         total: 0,
         current: 1,
-        pageSize: 5,
+        pageSize: 10,
         onChange: this.changePage.bind(this),
       },
     };
@@ -22,7 +21,7 @@ class User extends Component {
     let params = {
       method: 'GET',
     };
-    let url = 'manager/user/listUser?page=' + pageNum + '&size=' + this.state.pagination.pageSize;
+    let url = 'manager/msg/listMsg?page=' + pageNum + '&size=' + this.state.pagination.pageSize;
     axios.get(url).then((res) => {
       let data = res.data
       const pagination = this.state.pagination;
@@ -42,44 +41,36 @@ class User extends Component {
   render() {
     const columns = [
       {
-        title: '头像',
-        dataIndex: 'imgUrl',
-        key: 'imgUrl',
-        render(text) {
-          return <Avatar size={48} src={text}/>;
-        },
+        title: '发送人',
+        dataIndex: 'sendId',
+        key: 'sender',
       },
       {
-        title: '用户名',
-        dataIndex: 'username',
-        key: 'username',
+        title: '接受人',
+        dataIndex: 'destId',
+        key: 'receiver',
       },
       {
-        title: '昵称',
-        dataIndex: 'nickname',
-        key: 'nickname',
+        title:'内容',
+        dataIndex:'content',
+        key:'content',
       },
       {
-        title: '手机号',
-        dataIndex: 'cellphone',
-        key: 'cellphone',
+        title: '发送时间',
+        dataIndex: 'ts',
+        key: 'ts'
       },
       {
-        title: '城市',
-        dataIndex: 'city',
-        key: 'city',
-      },
-      {
-        title: '注册时间',
-        dataIndex: 'createtime',
-        key: 'createtime',
+        title: '消息类型',
+        dataIndex: 'msgType',
+        key: 'msgType',
       },
       {
         title: '操作',
         key: 'operation',
         render(text, record) {
           let path = {
-            pathname: '/console/userManager/detail',
+            pathname: '/console/listManager/detail',
             state: record,
           };
           return (<Link to={path}>编辑</Link>);
@@ -89,16 +80,16 @@ class User extends Component {
     return (
       <div>
         <Breadcrumb style={{ margin: '0 0 16px 0' }}>
-          <Breadcrumb.Item>用户</Breadcrumb.Item>
-          <Breadcrumb.Item>用户管理</Breadcrumb.Item>
+          <Breadcrumb.Item>消息</Breadcrumb.Item>
+          <Breadcrumb.Item>消息管理</Breadcrumb.Item>
         </Breadcrumb>
 
-        <Table columns={columns} dataSource={this.state.data} rowKey="userId"
+        <Table columns={columns} dataSource={this.state.data} rowKey="msgId"
                pagination={this.state.pagination} size="middle"/>
 
       </div>
-    );
+    )
   }
 }
 
-export default User;
+export default Msg

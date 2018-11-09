@@ -1,7 +1,9 @@
-export default async (url, params)=>{
-  try{
-    let response = await fetch(url, params)
-  }catch (e) {
-    console.error(e)
-  }
-}
+import axios from 'axios'
+import config from '../config/settings'
+
+const instance = axios.create()
+instance.defaults.timeout =  config.timeout
+instance.defaults.baseURL = config.baseURL
+
+export default instance
+

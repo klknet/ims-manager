@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from '../../utils/request';
 import { Avatar, Breadcrumb, Table } from 'antd';
 import { Link } from 'react-router-dom';
+import * as moment from 'moment';
 
 class Msg extends Component {
   constructor(props) {
@@ -25,10 +26,10 @@ class Msg extends Component {
     axios.get(url).then((res) => {
       let data = res.data
       const pagination = this.state.pagination;
-      pagination.total = data.total;
+      pagination.total = data.totalElements;
       pagination.current = pageNum;
       this.setState({
-        data: data.list,
+        data: data.content,
         pagination,
       });
     });
@@ -58,7 +59,10 @@ class Msg extends Component {
       {
         title: '发送时间',
         dataIndex: 'ts',
-        key: 'ts'
+        key: 'ts',
+        render(text) {
+          return <span>{moment(text).format('YYYY-MM-DD HH:mm')}</span>
+        }
       },
       {
         title: '消息类型',

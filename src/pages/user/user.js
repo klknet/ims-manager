@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Avatar, Breadcrumb, Table } from 'antd';
+import { Avatar, Breadcrumb, Table, Badge } from 'antd';
 import './user.css';
+import * as moment from 'moment';
 import axios from '../../utils/request';
 
 class User extends Component {
@@ -12,7 +13,7 @@ class User extends Component {
       pagination: {
         total: 0,
         current: 1,
-        pageSize: 5,
+        pageSize: 10,
         onChange: this.changePage.bind(this),
       },
     };
@@ -26,10 +27,10 @@ class User extends Component {
     axios.get(url).then((res) => {
       let data = res.data
       const pagination = this.state.pagination;
-      pagination.total = data.total;
+      pagination.total = data.totalElements;
       pagination.current = pageNum;
       this.setState({
-        data: data.list,
+        data: data.content,
         pagination,
       });
     });
@@ -70,9 +71,19 @@ class User extends Component {
         key: 'city',
       },
       {
+        title:'在线状态',
+        dataIndex:'state',
+        render(text){
+          return <div>{text == 'ONLINE' ? <Badge status="processing" text="在线" /> : <Badge status="error" text="离线" />}</div>
+        }
+      },
+      {
         title: '注册时间',
         dataIndex: 'createtime',
         key: 'createtime',
+        render(text) {
+          return <span>{moment(text).format('YYYY-MM-DD HH:mm')}</span>
+        }
       },
       {
         title: '操作',

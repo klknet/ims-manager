@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import axios from '../../utils/request';
-import { Avatar, Breadcrumb, Table } from 'antd';
-import { Link } from 'react-router-dom';
+import {Breadcrumb, Table} from 'antd';
+import {Link} from 'react-router-dom';
 import * as moment from 'moment';
 
 class Msg extends Component {
@@ -19,9 +19,6 @@ class Msg extends Component {
   }
 
   changePage(pageNum) {
-    let params = {
-      method: 'GET',
-    };
     let url = 'manager/msg/listMsg?page=' + pageNum + '&size=' + this.state.pagination.pageSize;
     axios.get(url).then((res) => {
       let data = res.data

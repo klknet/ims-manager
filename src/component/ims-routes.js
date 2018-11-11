@@ -24,12 +24,12 @@ class ImsRoutes extends Component {
   render() {
     return (
       <Switch>
-        <Route exact path='/console' component={Dashboard}/>
-        <Route exact path='/console/userManager' component={User}/>
-        <Route path='/console/userManager/detail' component={UserDetail}/>
-        <Route path='/console/relationship' component={Relationship}/>
-        <Route path='/console/msgManager' component={Msg}/>
-        <Redirect to='/console'/>
+        <Route exact path='/console/dashboard/home' component={Dashboard}/>
+        <Route exact path='/console/user/userManager' component={User}/>
+        <Route path='/console/user/userManager/detail' component={UserDetail}/>
+        <Route path='/console/user/relationship' component={Relationship}/>
+        <Route path='/console/msg/msgManager' component={Msg}/>
+        <Redirect to='/console/dashboard/home'/>
       </Switch>
     );
   }

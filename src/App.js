@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import React, {Component} from 'react';
+import {BrowserRouter as Router} from 'react-router-dom';
 import logo from './asserts/logo.svg';
 import './App.css';
-import { Layout } from 'antd';
+import {Layout} from 'antd';
 import 'antd/dist/antd.css';
 import NavMenu from './component/nav-menu';
 import ImsRoutes from './component/ims-routes';
@@ -15,10 +15,10 @@ class App extends Component {
       <Router>
         <div>
           <Layout>
-            <Sider style={{ minHeight: '100vh', width: 300 }}>
+            <Sider width={260} style={{ minHeight: '100vh'}}>
               <div>
                 <img className='logo' src={logo}/>
-                <h3 style={{ color: '#fff', display: 'inline' }}>IMS Manager</h3>
+                <h2 style={{ color: '#fff', display: 'inline' }}>IMS Manager</h2>
               </div>
               <div>
                 <NavMenu/>

@@ -20,9 +20,6 @@ class User extends Component {
   }
 
   changePage(pageNum) {
-    let params = {
-      method: 'GET',
-    };
     let url = 'manager/user/listUser?page=' + pageNum + '&size=' + this.state.pagination.pageSize;
     axios.get(url).then((res) => {
       let data = res.data
@@ -74,7 +71,7 @@ class User extends Component {
         title:'在线状态',
         dataIndex:'state',
         render(text){
-          return <div>{text == 'ONLINE' ? <Badge status="processing" text="在线" /> : <Badge status="error" text="离线" />}</div>
+          return <div>{text === 'ONLINE' ? <Badge status="processing" text="在线" /> : <Badge status="error" text="离线" />}</div>
         }
       },
       {

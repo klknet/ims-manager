@@ -1,7 +1,5 @@
-import { Component } from 'react';
-import { Form, Input, Button, Avatar } from 'antd';
-import React from 'react';
-import config from '../../config/settings';
+import React, {Component} from 'react';
+import {Avatar, Button, Form, Input} from 'antd';
 import axios from '../../utils/request'
 
 const FormItem = Form.Item;

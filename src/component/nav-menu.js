@@ -73,9 +73,7 @@ function recMenu(datasource, comp) {
                 </Menu.Item>);
         } else if (menu.type === 1) {
             return (
-                <SubMenu key={menu.link} title={<span><Icon type={menu.icon}/><span>{menu.name}</span></span>}
-
-                >
+                <SubMenu key={menu.link} title={<span><Icon type={menu.icon}/><span>{menu.name}</span></span>}>
                     {recMenu(menu.subs, comp)}
                 </SubMenu>
             )

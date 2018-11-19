@@ -87,7 +87,7 @@ class User extends Component {
         key: 'operation',
         render(text, record) {
           let path = {
-            pathname: '/console/userManager/detail',
+            pathname: '/console/user/userManager/detail',
             state: record,
           };
           return (<Link to={path}>编辑</Link>);

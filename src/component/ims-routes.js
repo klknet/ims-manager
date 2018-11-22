@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import User from '../pages/user/user';
 import UserDetail from '../pages/user/detail';
 import Msg from '../pages/msg/msg';
+import NormalLoginForm from '../pages/login/login';
 
 class Dashboard extends Component {
   render() {
@@ -23,6 +24,7 @@ class Relationship extends Component {
 class ImsRoutes extends Component {
   render() {
     return (
+      <div>
       <Switch>
         <Route exact path='/console/dashboard/home' component={Dashboard}/>
         <Route exact path='/console/user/userManager' component={User}/>
@@ -31,6 +33,7 @@ class ImsRoutes extends Component {
         <Route path='/console/msg/msgManager' component={Msg}/>
         <Redirect to='/console/dashboard/home'/>
       </Switch>
+      </div>
     );
   }
 }

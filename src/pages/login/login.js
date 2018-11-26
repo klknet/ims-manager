@@ -1,11 +1,11 @@
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import React, { Component } from 'react';
-import './login.css'
+import { Button, Checkbox, Form, Icon, Input } from 'antd';
+import React from 'react';
+import './login.css';
 import logo from '../../asserts/logo.svg';
 
-import axios from '../../utils/request'
+import axios from '../../utils/request';
 import ReactDOM from 'react-dom';
-import App from '../../App';
+import persist from '../../utils/persist'
 
 const FormItem = Form.Item;
 
@@ -16,13 +16,14 @@ class NormalLoginForm extends React.Component {
       props.callback()
     }
   }
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         axios.post("auth/login", {...values}).then(res=>{
-          console.log(res.data)
-          window.localStorage['authorization'] = 'Bearer '+res.data.token
+          persist.storeToken(res.data.token)
+          persist.storeUser(res.data.user)
           this.login()
           window.location.url = '/console/dashboard/home'
         }).catch(error=>{
@@ -31,7 +32,6 @@ class NormalLoginForm extends React.Component {
         })
       }
     });
-
   };
 
   render() {

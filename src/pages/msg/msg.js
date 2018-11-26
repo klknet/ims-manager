@@ -1,12 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from '../../utils/request';
-import {Breadcrumb, Table} from 'antd';
-import {Link} from 'react-router-dom';
+import { Breadcrumb, Table } from 'antd';
+import { Link } from 'react-router-dom';
 import * as moment from 'moment';
+import persist from '../../utils/persist';
+
 
 class Msg extends Component {
   constructor(props) {
     super(props);
+    axios.defaults.headers.common['Authorization'] = persist.getToken();
     this.state = {
       data: [],
       pagination: {
@@ -21,7 +24,7 @@ class Msg extends Component {
   changePage(pageNum) {
     let url = 'manager/msg/listMsg?page=' + pageNum + '&size=' + this.state.pagination.pageSize;
     axios.get(url).then((res) => {
-      let data = res.data
+      let data = res.data;
       const pagination = this.state.pagination;
       pagination.total = data.totalElements;
       pagination.current = pageNum;
@@ -49,17 +52,17 @@ class Msg extends Component {
         key: 'receiver',
       },
       {
-        title:'内容',
-        dataIndex:'content',
-        key:'content',
+        title: '内容',
+        dataIndex: 'content',
+        key: 'content',
       },
       {
         title: '发送时间',
         dataIndex: 'ts',
         key: 'ts',
         render(text) {
-          return <span>{moment(text).format('YYYY-MM-DD HH:mm')}</span>
-        }
+          return <span>{moment(text).format('YYYY-MM-DD HH:mm')}</span>;
+        },
       },
       {
         title: '消息类型',
@@ -89,8 +92,8 @@ class Msg extends Component {
                pagination={this.state.pagination} size="middle"/>
 
       </div>
-    )
+    );
   }
 }
 
-export default Msg
+export default Msg;

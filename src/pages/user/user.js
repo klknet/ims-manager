@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Avatar, Breadcrumb, Table, Badge } from 'antd';
+import { Avatar, Badge, Breadcrumb, Table } from 'antd';
 import './user.css';
 import * as moment from 'moment';
 import axios from '../../utils/request';
-
+import persist from '../../utils/persist';
 
 class User extends Component {
   constructor(props) {
     super(props);
+    axios.defaults.headers.common['Authorization'] = persist.getToken();
     this.state = {
       data: [],
       pagination: {
@@ -23,7 +24,7 @@ class User extends Component {
   changePage(pageNum) {
     let url = 'manager/user/listUser?page=' + pageNum + '&size=' + this.state.pagination.pageSize;
     axios.get(url).then((res) => {
-      let data = res.data
+      let data = res.data;
       const pagination = this.state.pagination;
       pagination.total = data.totalElements;
       pagination.current = pageNum;
@@ -69,19 +70,20 @@ class User extends Component {
         key: 'city',
       },
       {
-        title:'在线状态',
-        dataIndex:'state',
-        render(text){
-          return <div>{text === 'ONLINE' ? <Badge status="processing" text="在线" /> : <Badge status="error" text="离线" />}</div>
-        }
+        title: '在线状态',
+        dataIndex: 'state',
+        render(text) {
+          return <div>{text === 'ONLINE' ? <Badge status="processing" text="在线"/> :
+            <Badge status="error" text="离线"/>}</div>;
+        },
       },
       {
         title: '注册时间',
         dataIndex: 'createtime',
         key: 'createtime',
         render(text) {
-          return <span>{moment(text).format('YYYY-MM-DD HH:mm')}</span>
-        }
+          return <span>{moment(text).format('YYYY-MM-DD HH:mm')}</span>;
+        },
       },
       {
         title: '操作',

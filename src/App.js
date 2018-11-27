@@ -31,7 +31,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.login);
     if (this.state.login) {
       return (
         <Router>

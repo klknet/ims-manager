@@ -25,7 +25,6 @@ class NormalLoginForm extends React.Component {
           persist.storeToken(res.data.token)
           persist.storeUser(res.data.user)
           this.login()
-          window.location.url = '/console/dashboard/home'
         }).catch(error=>{
           if(error)
             console.log(error)
@@ -79,5 +78,4 @@ class NormalLoginForm extends React.Component {
 
 const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
 
-ReactDOM.render(<WrappedNormalLoginForm />, document.getElementById('root'));
 export default WrappedNormalLoginForm;

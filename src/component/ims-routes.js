@@ -4,6 +4,7 @@ import User from '../pages/user/user';
 import UserDetail from '../pages/user/detail';
 import Msg from '../pages/msg/msg';
 import NormalLoginForm from '../pages/login/login';
+import Friend from '../pages/user/friend';
 
 class Dashboard extends Component {
   render() {
@@ -28,7 +29,6 @@ class ImsRoutes extends Component {
       <Switch>
         <Route exact path='/console/dashboard/home' component={Dashboard}/>
         <Route exact path='/console/user/userManager' component={User}/>
-        <Route path='/console/user/userManager/detail' component={UserDetail}/>
         <Route path='/console/user/relationship' component={Relationship}/>
         <Route path='/console/msg/msgManager' component={Msg}/>
         <Redirect to='/console/dashboard/home'/>

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { Avatar, Badge, Breadcrumb, Table } from 'antd';
 import './user.css';
 import * as moment from 'moment';
 import axios from '../../utils/request';
 import persist from '../../utils/persist';
+import Friend from './friend';
+import UserDetail from './detail';
 
 class User extends Component {
   constructor(props) {
@@ -12,9 +13,11 @@ class User extends Component {
     axios.defaults.headers.common['Authorization'] = persist.getToken();
     this.state = {
       data: [],
+      friends: [],
+      detail:{},
       pagination: {
         total: 0,
-        current: 1,
+        current: 0,
         pageSize: 10,
         onChange: this.changePage.bind(this),
       },
@@ -39,7 +42,44 @@ class User extends Component {
     this.changePage(this.state.pagination.current);
   }
 
+  renderFriend = (record) => {
+    this.setState({
+      friends: record.friends
+    })
+  }
+
+  friendsOk = (e) => {
+    this.setState({
+      friends: []
+    })
+  }
+
+  friendsCancel = (e) => {
+    this.setState({
+      friends: []
+    })
+  }
+
+  renderDetail = (record) => {
+    this.setState({
+      detail: record
+    })
+  }
+
+  detailOk = (e) => {
+    this.setState({
+      detail: {}
+    })
+  }
+
+  detailCancel = (e) => {
+    this.setState({
+      detail: {}
+    })
+  }
+
   render() {
+    let that = this
     const columns = [
       {
         title: '头像',
@@ -74,7 +114,7 @@ class User extends Component {
         dataIndex: 'state',
         render(text) {
           return <div>{text === 'ONLINE' ? <Badge status="processing" text="在线"/> :
-            <Badge status="error" text="离线"/>}</div>;
+            <Badge status="default" text="离线"/>}</div>;
         },
       },
       {
@@ -89,11 +129,13 @@ class User extends Component {
         title: '操作',
         key: 'operation',
         render(text, record) {
-          let path = {
-            pathname: '/console/user/userManager/detail',
-            state: record,
-          };
-          return (<Link to={path}>编辑</Link>);
+          return (
+            <div>
+              <a href={'javascript:void(0)'} onClick={() => that.renderDetail(record)}>编辑</a>
+              <span> | </span>
+              <a href={'javascript:void(0)'} onClick={() => that.renderFriend(record)}>好友</a>
+            </div>
+          );
         },
       },
     ];
@@ -104,9 +146,20 @@ class User extends Component {
           <Breadcrumb.Item>用户管理</Breadcrumb.Item>
         </Breadcrumb>
 
-        <Table columns={columns} dataSource={this.state.data} rowKey="userId"
-               pagination={this.state.pagination} size="middle"/>
+        <Table columns={columns}
+               dataSource={this.state.data} rowKey="userId"
+               pagination={this.state.pagination} size="middle"
+               />
 
+        <Friend visible={this.state.friends.length > 0}
+                friends = {this.state.friends}
+                friendsOk={this.friendsOk}
+                friendsCancel={this.friendsCancel}/>
+
+        <UserDetail visible={Object.keys(this.state.detail).length > 0}
+                    detail={this.state.detail}
+                    detailOk={this.detailOk}
+                    detailCancel={this.detailCancel}/>
       </div>
     );
   }

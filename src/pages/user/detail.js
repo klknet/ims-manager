@@ -8,25 +8,7 @@ const FormItem = Form.Item;
 class UserDetail extends Component {
   constructor(props) {
     super(props);
-
   }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
-  };
-
-  submit(e) {
-    e.preventDefault();
-    console.log(this.props.data);
-    axios.post('manager/user/userUpdate', JSON.stringify(this.props.data));
-  }
-
-
 
   render() {
     const formItemLayout = {
@@ -43,7 +25,8 @@ class UserDetail extends Component {
              cancelText={'取消'}
              onCancel={detailCancel}>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Form onSubmit={this.handleSubmit}>
+          <Form>
+            {getFieldDecorator('userId', {initialValue: detail.userId})(<Input type='hidden'/>)}
             <FormItem label={'头像'} {...formItemLayout}>
               {getFieldDecorator('imgUrl', {})(
                 <Avatar size={64} src={detail.imgUrl}/>,
@@ -56,12 +39,12 @@ class UserDetail extends Component {
             </FormItem>
             <FormItem label={'手机号'} {...formItemLayout}>
               {getFieldDecorator('cellphone', { initialValue: detail.cellphone })(
-                <Input/>,
+                <Input disabled={true}/>,
               )}
             </FormItem>
             <FormItem label={'城市'} {...formItemLayout}>
-              {getFieldDecorator('city', { initialValue: detail.city })(
-                <Input/>,
+              {getFieldDecorator('city', {initialValue: detail.city})(
+                <Input />,
               )}
             </FormItem>
           </Form>

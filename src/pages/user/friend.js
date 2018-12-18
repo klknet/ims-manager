@@ -38,7 +38,7 @@ class Friend extends Component {
                dataSource={friends}
                pagination={false}
                rowKey = {'userId'}
-               size={'middle'}/>
+               size={'small'}/>
       </Modal>
 
     );

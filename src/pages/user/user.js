@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Avatar, Badge, Breadcrumb, Table } from 'antd';
+import { Avatar, Badge, Breadcrumb, Table, message } from 'antd';
 import './user.css';
 import * as moment from 'moment';
 import axios from '../../utils/request';
@@ -13,7 +13,9 @@ class User extends Component {
     axios.defaults.headers.common['Authorization'] = persist.getToken();
     this.state = {
       data: [],
+      friendsVisible: false,
       friends: [],
+      detailVisible: false,
       detail:{},
       pagination: {
         total: 0,
@@ -44,39 +46,58 @@ class User extends Component {
 
   renderFriend = (record) => {
     this.setState({
+      friendsVisible: true,
       friends: record.friends
     })
   }
 
   friendsOk = (e) => {
     this.setState({
-      friends: []
+      friendsVisible: false,
     })
   }
 
   friendsCancel = (e) => {
     this.setState({
-      friends: []
+      friendsVisible: false,
     })
   }
 
   renderDetail = (record) => {
+    this.userFormRef.props.form.resetFields()//重置组件为初始值
     this.setState({
+      detailVisible: true,
       detail: record
     })
   }
 
   detailOk = (e) => {
-    this.setState({
-      detail: {}
-    })
+    e.preventDefault();
+    this.userFormRef.props.form.validateFields((err, values) => {
+      axios.post('manager/user/userUpdate', values).then(res=>{
+        message.success("修改成功")
+        this.setState({
+          detailVisible: false,
+        })
+        this.changePage(0)
+      }).catch(error=>{
+        if(error)
+          message.error("修改失败")
+      });
+    });
+
   }
 
   detailCancel = (e) => {
     this.setState({
-      detail: {}
+      detailVisible: false,
     })
   }
+
+  saveUserFormRef = (formRef) => {
+    this.userFormRef = formRef
+  }
+
 
   render() {
     let that = this
@@ -151,15 +172,16 @@ class User extends Component {
                pagination={this.state.pagination} size="middle"
                />
 
-        <Friend visible={this.state.friends.length > 0}
+        <Friend visible={this.state.friendsVisible}
                 friends = {this.state.friends}
                 friendsOk={this.friendsOk}
                 friendsCancel={this.friendsCancel}/>
 
-        <UserDetail visible={Object.keys(this.state.detail).length > 0}
+        <UserDetail visible={this.state.detailVisible}
                     detail={this.state.detail}
                     detailOk={this.detailOk}
-                    detailCancel={this.detailCancel}/>
+                    detailCancel={this.detailCancel}
+                    wrappedComponentRef={this.saveUserFormRef}/>
       </div>
     );
   }
